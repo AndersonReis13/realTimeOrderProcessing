@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PaymentGateways {
 
-    Payments initiatePayment(Order order);
+    Payments initiatePayment(Long orderId, Payments payments);
     Payments getPaymentById(Long id);
     List<Payments> getAllPayments();
     Payments confirmPayment(Long paymentId);

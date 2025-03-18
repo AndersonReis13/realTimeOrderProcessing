@@ -1,0 +1,38 @@
+package com.as._3.realtimeorderprocessing.application.usecases.orders.impl;
+
+import com.as._3.realtimeorderprocessing.application.exceptions.orders.IllegalArgumentOrder;
+import com.as._3.realtimeorderprocessing.application.usecases.orders.CreateOrderUseCase;
+import com.as._3.realtimeorderprocessing.core.entites.Order;
+import com.as._3.realtimeorderprocessing.core.enums.OrderStatus;
+import com.as._3.realtimeorderprocessing.core.gateways.OrderGateways;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+public class CreateOrderUserCaseImpl implements CreateOrderUseCase {
+
+    private final OrderGateways orderGateways;
+
+    public CreateOrderUserCaseImpl(OrderGateways orderGateways) {
+        this.orderGateways = orderGateways;
+    }
+
+    @Override
+    public Order createOrderUseCase(Order order) {
+        LocalDate now = LocalDate.now();
+
+        if(order.createdAt().isBefore(now)){
+            throw new IllegalArgumentOrder("A data de criação não pode ser antes do tempo atual");
+        }
+
+        if(order.status() == OrderStatus.CANCELADO){
+            throw new IllegalArgumentOrder("A ordem não pode ser criada como cancelada");
+        }
+
+        if(order.totalAmount().compareTo(BigDecimal.ZERO) < 0){
+            throw new IllegalArgumentOrder("O valor do pagamento não pode ser 0");
+        }
+
+        return orderGateways.createOrder(order);
+    }
+}
