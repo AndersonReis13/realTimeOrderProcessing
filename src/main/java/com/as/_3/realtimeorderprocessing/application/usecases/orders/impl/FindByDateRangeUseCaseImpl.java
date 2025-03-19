@@ -1,6 +1,6 @@
 package com.as._3.realtimeorderprocessing.application.usecases.orders.impl;
 
-import com.as._3.realtimeorderprocessing.application.exceptions.orders.IllegalArgumentOrder;
+import com.as._3.realtimeorderprocessing.application.exceptions.orders.IllegalArgument;
 import com.as._3.realtimeorderprocessing.application.usecases.orders.FindByDateRangeUseCase;
 import com.as._3.realtimeorderprocessing.core.entites.Order;
 import com.as._3.realtimeorderprocessing.core.gateways.OrderGateways;
@@ -18,7 +18,7 @@ public class FindByDateRangeUseCaseImpl implements FindByDateRangeUseCase {
 
     public List<Order> findByDateRange(LocalDate startDate, LocalDate endDate){
         if(endDate.isBefore(startDate)){
-            throw new IllegalArgumentOrder("A data final não pode ser maior que a data inicial");
+            throw new IllegalArgument("A data final não pode ser maior que a data inicial");
         }
 
         return orderGateways.findByDateRange(startDate, endDate);
