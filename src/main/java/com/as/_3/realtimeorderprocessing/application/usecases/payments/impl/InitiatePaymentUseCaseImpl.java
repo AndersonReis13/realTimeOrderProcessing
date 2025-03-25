@@ -25,9 +25,9 @@ public class InitiatePaymentUseCaseImpl implements InitiatePaymentUseCase {
     @Override
     public Payments initiatePayment(Long orderId, Payments payments) {
 
-        Optional<Order> order = orderGateways.getOrderById(orderId);
+        Order order = orderGateways.getOrderById(orderId);
 
-        if(order.isEmpty()){
+        if(order == null){
             throw new OrderNotFoundException("A ordem não encontrada!");
         }
 

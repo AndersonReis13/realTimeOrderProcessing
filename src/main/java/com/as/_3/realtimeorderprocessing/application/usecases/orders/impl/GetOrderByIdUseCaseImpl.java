@@ -14,7 +14,7 @@ public class GetOrderByIdUseCaseImpl implements GetOrderByIdUseCase{
         this.orderGateways = orderGateways;
     }
 
-    public Optional<Order> getOrderById(Long id){
+    public Order getOrderById(Long id){
         orderDoesExists(id);
 
         return orderGateways.getOrderById(id);

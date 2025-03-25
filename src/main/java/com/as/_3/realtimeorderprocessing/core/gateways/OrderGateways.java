@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface OrderGateways {
     Order createOrder(Order order);
 
-    Optional<Order> getOrderById(Long orderId);
+    Order getOrderById(Long orderId);
 
     Order updateOrder(Order order);
 
