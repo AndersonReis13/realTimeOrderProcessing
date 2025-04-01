@@ -1,6 +1,5 @@
 package com.as._3.realtimeorderprocessing.infrastructure.persistence;
 
-import com.as._3.realtimeorderprocessing.core.entites.Order;
 import com.as._3.realtimeorderprocessing.core.enums.PaymentStatus;
 import jakarta.persistence.*;
 
