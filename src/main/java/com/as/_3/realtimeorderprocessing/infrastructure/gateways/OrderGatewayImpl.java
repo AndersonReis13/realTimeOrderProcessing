@@ -1,14 +1,18 @@
 package com.as._3.realtimeorderprocessing.infrastructure.gateways;
 
+import com.as._3.realtimeorderprocessing.application.exceptions.orders.OrderNotFoundException;
 import com.as._3.realtimeorderprocessing.core.entites.Order;
+import com.as._3.realtimeorderprocessing.core.enums.OrderStatus;
 import com.as._3.realtimeorderprocessing.core.gateways.OrderGateways;
 import com.as._3.realtimeorderprocessing.infrastructure.mapper.OrderMapper;
 import com.as._3.realtimeorderprocessing.infrastructure.persistence.OrderEntity;
 import com.as._3.realtimeorderprocessing.infrastructure.persistence.repositories.OrderRepository;
+import org.aspectj.weaver.ast.Var;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Collection;
 
 
 @Service
@@ -16,6 +20,7 @@ public class OrderGatewayImpl implements OrderGateways {
 
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
+
 
     public OrderGatewayImpl(OrderRepository orderRepository, OrderMapper orderMapper) {
         this.orderRepository = orderRepository;
@@ -44,12 +49,22 @@ public class OrderGatewayImpl implements OrderGateways {
 
     @Override
     public Order updateOrderStatus(Long userId, String status) {
-        return null;
+
+        var orderEntity = orderRepository.findById(userId)
+                .orElseThrow(()-> new OrderNotFoundException("Ordem não encontrada!"));
+        orderEntity.setStatus(OrderStatus.valueOf(status));
+        orderRepository.save(orderEntity);
+
+        return orderMapper.toOrderFromOrderEntity(orderEntity);
     }
 
     @Override
     public List<Order> getOrderByStatus(String status) {
-        return List.of();
+
+         return  orderRepository.findByStatus(OrderStatus.valueOf(status))
+                 .stream()
+                 .map(orderEntity -> orderMapper.toOrderFromOrderEntity(orderEntity))
+                 .toList();
     }
 
     @Override

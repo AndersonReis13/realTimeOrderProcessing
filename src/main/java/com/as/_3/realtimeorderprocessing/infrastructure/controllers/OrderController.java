@@ -7,10 +7,7 @@ import com.as._3.realtimeorderprocessing.infrastructure.persistence.OrderEntity;
 import com.as._3.realtimeorderprocessing.infrastructure.services.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "order")
@@ -32,5 +29,11 @@ public class OrderController {
         var order = orderMapper.toOrderDtoFromOrder(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(orderGateway.createOrder(order));
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateOrder(@RequestBody OrderRequest request){
+
+        return null;
     }
 }
