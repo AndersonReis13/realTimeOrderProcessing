@@ -44,7 +44,17 @@ public class OrderGatewayImpl implements OrderGateways {
 
     @Override
     public Order updateOrder(Order order) {
-        return null;
+
+        var orderEntity = orderRepository.findById(order.id())
+                .orElseThrow(() -> new OrderNotFoundException("Order não encontrada"));
+
+        orderEntity.setCustomerName(order.customerName());
+        orderEntity.setUpdatedAt(LocalDate.now());
+        orderEntity.setStatus(order.status());
+        orderEntity.setTotalAmount(order.totalAmount());
+        orderRepository.save(orderEntity);
+
+        return orderMapper.toOrderFromOrderEntity(orderEntity);
     }
 
     @Override
@@ -53,6 +63,7 @@ public class OrderGatewayImpl implements OrderGateways {
         var orderEntity = orderRepository.findById(userId)
                 .orElseThrow(()-> new OrderNotFoundException("Ordem não encontrada!"));
         orderEntity.setStatus(OrderStatus.valueOf(status));
+        orderEntity.setUpdatedAt(LocalDate.now());
         orderRepository.save(orderEntity);
 
         return orderMapper.toOrderFromOrderEntity(orderEntity);
@@ -60,7 +71,6 @@ public class OrderGatewayImpl implements OrderGateways {
 
     @Override
     public List<Order> getOrderByStatus(String status) {
-
          return  orderRepository.findByStatus(OrderStatus.valueOf(status))
                  .stream()
                  .map(orderEntity -> orderMapper.toOrderFromOrderEntity(orderEntity))
@@ -69,6 +79,7 @@ public class OrderGatewayImpl implements OrderGateways {
 
     @Override
     public List<Order> findByDateRange(LocalDate startDate, LocalDate endDate) {
+
         return List.of();
     }
 

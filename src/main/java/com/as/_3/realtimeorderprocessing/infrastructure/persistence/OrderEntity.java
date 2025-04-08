@@ -35,6 +35,9 @@ public class OrderEntity {
         this.updatedAt = updatedAt;
     }
 
+    public OrderEntity() {
+    }
+
     public Long getId() {
         return id;
     }

@@ -1,6 +1,7 @@
 package com.as._3.realtimeorderprocessing.core.entites;
 
 import com.as._3.realtimeorderprocessing.core.enums.OrderStatus;
+import org.springframework.http.HttpStatusCode;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
