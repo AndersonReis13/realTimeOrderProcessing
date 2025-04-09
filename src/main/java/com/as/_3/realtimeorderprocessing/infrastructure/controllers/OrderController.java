@@ -1,6 +1,7 @@
 package com.as._3.realtimeorderprocessing.infrastructure.controllers;
 
 import com.as._3.realtimeorderprocessing.core.entites.Order;
+import com.as._3.realtimeorderprocessing.infrastructure.dto.DateRangeRequest;
 import com.as._3.realtimeorderprocessing.infrastructure.dto.OrderRequest;
 import com.as._3.realtimeorderprocessing.infrastructure.gateways.OrderGatewayImpl;
 import com.as._3.realtimeorderprocessing.infrastructure.mapper.OrderMapper;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -46,4 +48,11 @@ public class OrderController {
     public ResponseEntity<Order> updateOrder(@RequestBody OrderRequest request){
         return new ResponseEntity<>(orderGateway.updateOrder(orderMapper.toOrderDtoFromOrder(request)), HttpStatus.OK);
     }
+
+    @PostMapping("/findByRange")
+    public ResponseEntity<List<Order>> findByRange(@RequestBody DateRangeRequest request){
+
+        return new ResponseEntity<>(orderGateway.findByDateRange(request.startDate(), request.endDate()), HttpStatus.OK);
+    }
+
 }

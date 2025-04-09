@@ -1,6 +1,7 @@
 package com.as._3.realtimeorderprocessing.infrastructure.persistence;
 
 import com.as._3.realtimeorderprocessing.core.enums.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -22,8 +23,10 @@ public class OrderEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate createdAt;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate updatedAt;
 
     public OrderEntity(Long id, String customerName, BigDecimal totalAmount, OrderStatus status, LocalDate createdAt, LocalDate updatedAt) {

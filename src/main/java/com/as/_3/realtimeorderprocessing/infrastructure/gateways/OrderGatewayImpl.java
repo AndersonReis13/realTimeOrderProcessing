@@ -4,6 +4,7 @@ import com.as._3.realtimeorderprocessing.application.exceptions.orders.OrderNotF
 import com.as._3.realtimeorderprocessing.core.entites.Order;
 import com.as._3.realtimeorderprocessing.core.enums.OrderStatus;
 import com.as._3.realtimeorderprocessing.core.gateways.OrderGateways;
+import com.as._3.realtimeorderprocessing.infrastructure.dto.DateRangeRequest;
 import com.as._3.realtimeorderprocessing.infrastructure.mapper.OrderMapper;
 import com.as._3.realtimeorderprocessing.infrastructure.persistence.OrderEntity;
 import com.as._3.realtimeorderprocessing.infrastructure.persistence.repositories.OrderRepository;
@@ -80,11 +81,17 @@ public class OrderGatewayImpl implements OrderGateways {
     @Override
     public List<Order> findByDateRange(LocalDate startDate, LocalDate endDate) {
 
-        return List.of();
+        List<OrderEntity> orders = orderRepository.findByCreatedAtBetween(startDate, endDate);
+
+        return  orders.stream()
+                .map(orderEntity -> orderMapper.toOrderFromOrderEntity(orderEntity))
+                .toList();
     }
 
     @Override
     public void DeleteOrder(Long id) {
 
     }
+
+
 }
